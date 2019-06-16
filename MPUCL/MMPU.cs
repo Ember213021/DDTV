@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+//using static System.Net.Mime.MediaTypeNames;
 
 namespace MPUCL
 {
@@ -255,7 +255,10 @@ namespace MPUCL
         {
             var rlc = new Room.RoomBox();
             rlc = JsonConvert.DeserializeObject<Room.RoomBox>(ReadConfigFile(RoomConfigFile));
-            RoomConfigList = rlc?.data;
+            if (rlc == null)
+                RoomConfigList = null;
+            else
+                RoomConfigList = rlc.data;
 
             if (RoomConfigList == null)
                 RoomConfigList = new List<Room.RoomCadr>();

@@ -17,7 +17,7 @@ namespace DD监控室
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Main());
-            Application.Run(new Main());
+            Application.Run(new MainWindow());
         }
     }
 }

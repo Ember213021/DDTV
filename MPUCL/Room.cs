@@ -18,9 +18,30 @@ namespace MPUCL
         {
             public string Name { get; set; }
             public string RoomNumber { get; set; }
-            public string Types { get; set; } = "bilibili";
-            public bool status { get; set; } =false;
-            public bool VideoStatus { get; set; } = false;
+            private string types= "bilibili";
+
+            public string Types
+            {
+                get { return types; }
+                set { types = value; }
+            }
+           
+            private bool status =false;
+
+            public bool Status
+            {
+                get { return status; }
+                set { status = value; }
+            }
+
+            private bool videoStatus = false;
+
+            public bool VideoStatus
+            {
+                get { return videoStatus; }
+                set { videoStatus = value; }
+            }
+            
 
             [JsonProperty(PropertyName = "Ty")]
             private bool statusAlt1 { set { status = value;} }
@@ -47,8 +68,21 @@ namespace MPUCL
             public string Name { get; set; }
             public bool Status { get; set; }
             public string File { get; set; }
-            public string StartTime { get; set; } = "";
-            public string EndTime { get; set; } = "";
+            private string startTime = "";
+
+            public string StartTime
+            {
+                get { return startTime; }
+                set { startTime = value; }
+            }
+            private string endTime = "";
+
+            public string EndTime
+            {
+                get { return endTime; }
+                set { endTime = value; }
+            }
+            
         }
     }
 }

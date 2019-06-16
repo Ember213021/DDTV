@@ -1,6 +1,6 @@
 ﻿namespace DD监控室
 {
-    partial class Main
+    partial class MainWindow
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.button1 = new System.Windows.Forms.Button();
             this.T1 = new System.Windows.Forms.TextBox();
@@ -54,17 +54,17 @@
             this.YTBRoomID = new System.Windows.Forms.TextBox();
             this.vsavgsdbgfdbd = new System.Windows.Forms.Label();
             this.DMNF = new System.Windows.Forms.CheckBox();
-            this.button12 = new System.Windows.Forms.Button();
+            this.btn_Goto = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.btn_RefreshLiveList = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.RoomNametext = new System.Windows.Forms.TextBox();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.btn_DeleteLive = new System.Windows.Forms.Button();
+            this.btn_AddLive = new System.Windows.Forms.Button();
             this.listBox = new System.Windows.Forms.ListBox();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btn_TempListen = new System.Windows.Forms.Button();
             this.biliRoomId = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -353,15 +353,15 @@
             this.DMNF.UseVisualStyleBackColor = false;
             this.DMNF.CheckedChanged += new System.EventHandler(this.DMNF_CheckedChanged);
             // 
-            // button12
+            // btn_Goto
             // 
-            this.button12.Location = new System.Drawing.Point(224, -1);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(43, 23);
-            this.button12.TabIndex = 30;
-            this.button12.Text = "跳转";
-            this.button12.UseVisualStyleBackColor = true;
-            this.button12.Click += new System.EventHandler(this.button12_Click);
+            this.btn_Goto.Location = new System.Drawing.Point(224, -1);
+            this.btn_Goto.Name = "btn_Goto";
+            this.btn_Goto.Size = new System.Drawing.Size(43, 23);
+            this.btn_Goto.TabIndex = 30;
+            this.btn_Goto.Text = "跳转";
+            this.btn_Goto.UseVisualStyleBackColor = true;
+            this.btn_Goto.Click += new System.EventHandler(this.btn_GoTo_Click);
             // 
             // button11
             // 
@@ -393,15 +393,15 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // button8
+            // btn_RefreshLiveList
             // 
-            this.button8.Location = new System.Drawing.Point(174, 260);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(92, 23);
-            this.button8.TabIndex = 18;
-            this.button8.Text = "刷新";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.btn_RefreshLiveList.Location = new System.Drawing.Point(174, 260);
+            this.btn_RefreshLiveList.Name = "btn_RefreshLiveList";
+            this.btn_RefreshLiveList.Size = new System.Drawing.Size(92, 23);
+            this.btn_RefreshLiveList.TabIndex = 18;
+            this.btn_RefreshLiveList.Text = "刷新";
+            this.btn_RefreshLiveList.UseVisualStyleBackColor = true;
+            this.btn_RefreshLiveList.Click += new System.EventHandler(this.btn_RefreshLiveList_Click);
             // 
             // label4
             // 
@@ -419,25 +419,25 @@
             this.RoomNametext.Size = new System.Drawing.Size(115, 21);
             this.RoomNametext.TabIndex = 16;
             // 
-            // button7
+            // btn_DeleteLive
             // 
-            this.button7.Location = new System.Drawing.Point(223, 283);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(43, 23);
-            this.button7.TabIndex = 15;
-            this.button7.Text = "删除";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click_1);
+            this.btn_DeleteLive.Location = new System.Drawing.Point(223, 283);
+            this.btn_DeleteLive.Name = "btn_DeleteLive";
+            this.btn_DeleteLive.Size = new System.Drawing.Size(43, 23);
+            this.btn_DeleteLive.TabIndex = 15;
+            this.btn_DeleteLive.Text = "删除";
+            this.btn_DeleteLive.UseVisualStyleBackColor = true;
+            this.btn_DeleteLive.Click += new System.EventHandler(this.btn_DeleteLive_Click);
             // 
-            // button6
+            // btn_AddLive
             // 
-            this.button6.Location = new System.Drawing.Point(174, 283);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(43, 23);
-            this.button6.TabIndex = 14;
-            this.button6.Text = "添加";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click_1);
+            this.btn_AddLive.Location = new System.Drawing.Point(174, 283);
+            this.btn_AddLive.Name = "btn_AddLive";
+            this.btn_AddLive.Size = new System.Drawing.Size(43, 23);
+            this.btn_AddLive.TabIndex = 14;
+            this.btn_AddLive.Text = "添加";
+            this.btn_AddLive.UseVisualStyleBackColor = true;
+            this.btn_AddLive.Click += new System.EventHandler(this.btn_AddLive_Click_1);
             // 
             // listBox
             // 
@@ -454,15 +454,15 @@
             this.listBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listBox_MouseClick);
             this.listBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseDoubleClick);
             // 
-            // button4
+            // btn_TempListen
             // 
-            this.button4.Location = new System.Drawing.Point(6, 314);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(260, 23);
-            this.button4.TabIndex = 11;
-            this.button4.Text = "不添加到列表,临时监听(名单也可以双击)";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btn_TempListen.Location = new System.Drawing.Point(6, 314);
+            this.btn_TempListen.Name = "btn_TempListen";
+            this.btn_TempListen.Size = new System.Drawing.Size(260, 23);
+            this.btn_TempListen.TabIndex = 11;
+            this.btn_TempListen.Text = "不添加到列表,临时监听(名单也可以双击)";
+            this.btn_TempListen.UseVisualStyleBackColor = true;
+            this.btn_TempListen.Click += new System.EventHandler(this.btn_TempListen_Click);
             // 
             // biliRoomId
             // 
@@ -579,14 +579,14 @@
             this.groupBox6.BackColor = System.Drawing.Color.White;
             this.groupBox6.Controls.Add(this.listBox);
             this.groupBox6.Controls.Add(this.label3);
-            this.groupBox6.Controls.Add(this.button6);
-            this.groupBox6.Controls.Add(this.button7);
-            this.groupBox6.Controls.Add(this.button12);
+            this.groupBox6.Controls.Add(this.btn_AddLive);
+            this.groupBox6.Controls.Add(this.btn_DeleteLive);
+            this.groupBox6.Controls.Add(this.btn_Goto);
             this.groupBox6.Controls.Add(this.label4);
             this.groupBox6.Controls.Add(this.biliRoomId);
             this.groupBox6.Controls.Add(this.RoomNametext);
-            this.groupBox6.Controls.Add(this.button4);
-            this.groupBox6.Controls.Add(this.button8);
+            this.groupBox6.Controls.Add(this.btn_TempListen);
+            this.groupBox6.Controls.Add(this.btn_RefreshLiveList);
             this.groupBox6.Location = new System.Drawing.Point(12, 70);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(272, 343);
@@ -607,11 +607,11 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "房间列表下载";
             // 
-            // Main
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(525, 495);
+            this.ClientSize = new System.Drawing.Size(523, 496);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
@@ -627,7 +627,7 @@
             this.Controls.Add(this.button1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Name = "Main";
+            this.Name = "MainWindow";
             this.Text = "DD导播中心(多路直播监控)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -663,16 +663,16 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private Sunisoft.IrisSkin.SkinEngine skinEngine1;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btn_TempListen;
         private System.Windows.Forms.TextBox biliRoomId;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.ListBox listBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox RoomNametext;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button btn_DeleteLive;
+        private System.Windows.Forms.Button btn_AddLive;
+        private System.Windows.Forms.Button btn_RefreshLiveList;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox 流;
         private System.Windows.Forms.Label label6;
@@ -690,7 +690,7 @@
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.CheckBox DMNF;
-        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button btn_Goto;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Label vsavgsdbgfdbd;

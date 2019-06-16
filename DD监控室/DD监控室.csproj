@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>DD监控室</RootNamespace>
     <AssemblyName>DD监控室</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -28,6 +28,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -88,15 +89,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IrisSkin4">
-      <HintPath>Y:\DDTV\rst\1.0.1.5\IrisSkin4.dll</HintPath>
+      <HintPath>D:\DDTV 1.0.2.6\1.0.2.6\IrisSkin4.dll</HintPath>
     </Reference>
     <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x86\Release\MaterialSkin.dll</HintPath>
+      <HintPath>D:\DDTV 1.0.2.6\1.0.2.6\MaterialSkin.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Git_Non\东方网页项目\留言\bin\Newtonsoft.Json.dll</HintPath>
+      <HintPath>D:\DDTV 1.0.2.6\1.0.2.6\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -130,9 +131,15 @@
     <Compile Include="RecordForm.Designer.cs">
       <DependentUpon>RecordForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="VLCAPI.cs" />
-    <Compile Include="VLCPlayer.cs" />
-    <Compile Include="VLCUtil.cs" />
+    <Compile Include="Player\VLCAPI.cs" />
+    <Compile Include="Player\VLCPlayer.cs" />
+    <Compile Include="Player\VLCUtil.cs" />
+    <Compile Include="UI\LiveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LiveForm.Designer.cs">
+      <DependentUpon>LiveForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,13 +151,16 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="RecordForm.resx">
       <DependentUpon>RecordForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\LiveForm.resx">
+      <DependentUpon>LiveForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="DM_System\.project" />
     <None Include="new.ini" />
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -186,9 +196,9 @@
     <Content Include="DM_System\my-page-styles.css" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DmWin\DmWin.csproj">
-      <Project>{6d7451c6-e747-4790-a32a-e394e062f090}</Project>
-      <Name>DmWin</Name>
+    <ProjectReference Include="..\DmWin2\DmWin2.csproj">
+      <Project>{543bc2e2-d79f-4a29-bc14-c49ba5a131c5}</Project>
+      <Name>DmWin2</Name>
     </ProjectReference>
     <ProjectReference Include="..\MPUCL\MPUCL.csproj">
       <Project>{ef042ce7-004d-4271-aa32-8c51462f57d4}</Project>
@@ -207,5 +217,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

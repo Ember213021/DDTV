@@ -10,12 +10,13 @@ using System.Text.RegularExpressions;
 using DmWin;
 using MPUCL;
 using MaterialSkin.Controls;
+using DD监控室.UI;
 
 namespace DD监控室
 {
-    public partial class Main : MaterialForm
+    public partial class MainWindow : MaterialForm
     {
-        public Main()
+        public MainWindow()
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
@@ -25,7 +26,7 @@ namespace DD监控室
         public int CurrentlyStream = 0;//当前选择的直播流标示
         public int streamNumber = 0;//直播流的数量标示
         public bool startType = true;//首次启动判断
-        public Size playWindowDefaultSize = new Size(720, 440);//播放窗口的默认大小
+        
         public int indexRoom = 0;
         public string IndexRoomNum = "";
         public string ver = "1.0.2.0";
@@ -36,7 +37,7 @@ namespace DD监控室
 
         List<VLCPlayer> VLC = new List<VLCPlayer>();//动态VLC播放器对象List
         List<PictureBox> PBOX = new List<PictureBox>();//动态pictureBox对象List
-        List<Form> FM = new List<Form>();//动态Form对象List
+        List<LiveForm> LiveFormList = new List<LiveForm>();//动态Form对象List
         List<Size> FSize = new List<Size>();//Form窗体大小List
                                             //RoomBox RB = new RoomBox();//房间信息
 
@@ -203,7 +204,7 @@ namespace DD监控室
                     {
                         return;
                     }
-                    if (FM[标号].Visible == false)
+                    if (LiveFormList[标号].Visible == false)
                     {
 
                         return;
@@ -273,7 +274,7 @@ namespace DD监控室
                                     bw.Close();
                                     return;
                                 }
-                                if (FM[标号].Visible == false)
+                                if (LiveFormList[标号].Visible == false)
                                 {
                                     fs.Close();
                                     bw.Close();
@@ -356,7 +357,7 @@ namespace DD监控室
         /// <param name="音量"></param>
         public void EditTitleVolume(int 标号, int 音量)
         {
-            FM[标号].Text = "DDTV-" + MMPU.RoomInfo[标号].Name + " 点击标题按F5可刷新 音量:" + 音量 + "%" + " 正在直播:" + MMPU.RoomInfo[标号].Text + "  如果弹幕被挡住了，把鼠标移动到这↓下面↓的这条白线上晃动一下";
+            LiveFormList[标号].Text = "DDTV-" + MMPU.RoomInfo[标号].Name + " 点击标题按F5可刷新 音量:" + 音量 + "%" + " 正在直播:" + MMPU.RoomInfo[标号].Text + "  如果弹幕被挡住了，把鼠标移动到这↓下面↓的这条白线上晃动一下";
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -395,10 +396,10 @@ namespace DD监控室
             A.Name = (CurrentlyStream).ToString();
             A.Icon = new Icon("./DDTV.ico");
             FSize.Add(new Size(720, 480));
-            FM.Add(A);
+            LiveFormList.Add(A);
             PictureBox p = new PictureBox();//实例化一个照片框
             p.BackColor = Color.Black;
-            FM[0].Controls.Add(p);//添加到当前窗口集合中
+            LiveFormList[0].Controls.Add(p);//添加到当前窗口集合中
             p.Size = new Size(A.Width - WindowTopLeft.X - 20, A.Height - WindowTopLeft.Y - 42);
             p.Location = WindowTopLeft;
             PBOX.Add(p);
@@ -422,7 +423,7 @@ namespace DD监控室
         /// 创建播放列表，新建一个播放窗口
         /// </summary>
         /// <param name="标题"></param>
-        public void NewLiveWindow(string 标题)
+        public LiveForm NewLiveWindow(string 标题)
         {
             streamNumber++;
 
@@ -433,273 +434,31 @@ namespace DD监控室
             int TS1 = CurrentlyStream;
             int TS2 = TS1 - 1;
             liveIndex.Text = (TS2).ToString();
+            
 
-            {
+                LiveForm A = new LiveForm();
+                A.InitLiveForm(CurrentlyStream);
 
-                Form A = new Form();
-                A.Size = playWindowDefaultSize;
+                LiveFormList.Add(A);
+                
+                //FSize.Add(LiveForm.playWindowDefaultSize);
 
-                //A.Text = "DDTV-" + (当前选择的直播流).ToString() + " 当前直播的节目是：" + 标题;
-                A.Icon = new Icon("./DDTV.ico");
-                A.Show();
-                A.Name = (CurrentlyStream).ToString();
-                A.KeyPreview = true;
-                A.ResizeEnd += A_ResizeEnd;
-                A.Activated += A_Activated;
-                A.FormClosing += A_FormClosing;
-                A.Move += A_Move;
-                A.MouseWheel += A_MouseWheel;
-                A.KeyDown += A_KeyDown;
-                A.MouseMove += A_MouseMove;
+                //PictureBox p = new PictureBox();//实例化一个照片框
+                //p.BackColor = Color.Black;
+                //LiveFormList[CurrentlyStream].Controls.Add(p);//添加到当前窗口集合中
+                
+                //p.Location = WindowTopLeft;
+                //PBOX.Add(p);
 
-                FM.Add(A);
-
-                FSize.Add(playWindowDefaultSize);
-
-                PictureBox p = new PictureBox();//实例化一个照片框
-                p.BackColor = Color.Black;
-                FM[CurrentlyStream].Controls.Add(p);//添加到当前窗口集合中
-                p.Size = new Size(A.Width - WindowTopLeft.X - 20, A.Height - WindowTopLeft.Y - 42);
-                p.Location = WindowTopLeft;
-                PBOX.Add(p);
-
-                VLCPlayer vlcPlayer = new VLCPlayer();
-                VLC.Add(vlcPlayer);
+                //VLCPlayer vlcPlayer = ;
+                //VLC.Add(vlcPlayer);
 
                 TopInfo.Checked = false;
-            }
+
+                return A;
         }
 
-        /// <summary>
-        /// 鼠标移动到上面发生
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void A_MouseMove(object sender, EventArgs e)
-        {
-            Form A = sender as Form;
-            CurrentlyStream = int.Parse(A.Name);
-            liveIndex.Text = (CurrentlyStream).ToString();
-            TopInfo.Checked = MMPU.RoomInfo[CurrentlyStream].Top;
-            if (MMPU.DanmakuEnabled)
-            {
-                try
-                {
-                    DmF[CurrentlyStream].Topmost = true;
-                    DmF[CurrentlyStream].Topmost = false;
-                }
-                catch (Exception)
-                {
-                }
-
-            }
-
-        }
-
-        private void A_KeyDown(object sender, KeyEventArgs e)
-        {
-            Form F1 = sender as Form;
-            if (e.KeyData == Keys.F5)
-            {
-                try
-                {
-                    int.Parse(MMPU.RoomInfo[CurrentlyStream].RoomNumber);
-                    string roomId = MMPU.RoomInfo[int.Parse(F1.Name)].RoomNumber;
-                    string VideoTitle = getUriSteam.GetUrlTitle(roomId, "bilibili");
-                    string steamData = getUriSteam.getBiliRoomId(roomId, "bilibili");
-                    T1.Text = steamData;
-                    CurrentlyStream = int.Parse(F1.Name);
-                    VLC[CurrentlyStream].Play(steamData, PBOX[CurrentlyStream].Handle);
-                    MMPU.RoomInfo[CurrentlyStream] = (new Room.RoomInfo { Name = CurrentlyStream.ToString(), RoomNumber = roomId, steam = steamData, status = true, Text = VideoTitle });
-                    EditTitleVolume(CurrentlyStream, trackBar1.Value);
-                    if (VLC[CurrentlyStream].GetPlayerState() == -10)
-                    {
-                        UpdateLiveForm(CurrentlyStream, roomId);
-                    }
-                }
-                catch (Exception)
-                {
-                    UpdateLiveForm(int.Parse(F1.Name), MMPU.RoomInfo[int.Parse(F1.Name)].RoomNumber);
-                }
-
-
-
-
-                Console.WriteLine("按下了F5");
-            }
-        }
-
-        /// <summary>
-        /// 鼠标滚轮事件(修改音量)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void A_MouseWheel(object sender, MouseEventArgs e)
-        {
-            Form F1 = sender as Form;
-            CurrentlyStream = int.Parse(F1.Name);
-            liveIndex.Text = F1.Name;
-            float addsd = 0.0f;
-            if (e.Delta > 0)
-                addsd -= 0.1f;
-            else
-                addsd += 0.1f;
-            if (addsd >= 3)
-                addsd = 3;
-            if (addsd <= 1)
-                addsd = 1f;
-
-            int 当前音量 = VLC[CurrentlyStream].Volume;
-
-            if (e.Delta > 0)//上
-            {
-                当前音量 += 5;
-            }
-            else if (e.Delta < 0)//下
-            {
-                当前音量 -= 5;
-            }
-            if (当前音量 > 100)
-            {
-                当前音量 = 100;
-            }
-            else if (当前音量 < 0)
-            {
-                当前音量 = 0;
-            }
-            VLC[CurrentlyStream].Volume = 当前音量;
-            trackBar1.Value = 当前音量;
-            EditTitleVolume(CurrentlyStream, 当前音量);
-        }
-        /// <summary>
-        /// 动态窗口移动事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void A_Move(object sender, EventArgs e)
-        {
-            更新窗体内播放器大小(sender);
-            if (MMPU.DanmakuEnabled)
-            {
-                try
-                {
-                    DmF[CurrentlyStream].Width = FM[CurrentlyStream].Width - 20;
-                    DmF[CurrentlyStream].Height = FM[CurrentlyStream].Height - 50;
-
-                    DmF[CurrentlyStream].Top = FM[CurrentlyStream].Top + 30;
-                    DmF[CurrentlyStream].Left = FM[CurrentlyStream].Left + 10;
-                    DmF[CurrentlyStream].Topmost = true;
-                    DmF[CurrentlyStream].Topmost = false;
-                }
-                catch (Exception)
-                {
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// 动态窗口关闭事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void A_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Form F1 = sender as Form;
-            int 标号 = int.Parse(F1.Name);
-            if (VLC[标号].IsInitlized)
-            {
-                VLC[标号].Stop();
-                VLC[标号].Dispose();
-            }
-
-            liveIndex.Items.Remove(标号.ToString());
-            new Thread(new ThreadStart(delegate
-            {
-                MMPU.RoomInfo[标号].status = false;
-                Thread.Sleep(1000);
-                //Directory.Delete("./tmp/" + MMPU.RoomInfo[标号].RoomNumber);
-                if (MMPU.DanmakuEnabled)
-                {
-                    try
-                    {
-                        this.DmF[标号].Dispatcher.Invoke(
-                  new Action(
-                    delegate
-                    {
-                        DmF[标号].Close();
-                    }
-                    ));
-                    }
-                    catch (Exception ex)
-                    {
-                        string asd = ex.ToString();
-                    }
-                }
-            })).Start();
-
-        }
-
-        /// <summary>
-        /// 动态窗口缩放事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void A_ResizeEnd(object sender, EventArgs e)
-        {
-            更新窗体内播放器大小(sender);
-            if (MMPU.DanmakuEnabled)
-            {
-                try
-                {
-                    DmF[CurrentlyStream].Width = FM[CurrentlyStream].Width - 20;
-                    DmF[CurrentlyStream].Height = FM[CurrentlyStream].Height - 50;
-
-                    DmF[CurrentlyStream].Top = FM[CurrentlyStream].Top + 30;
-                    DmF[CurrentlyStream].Left = FM[CurrentlyStream].Left + 10;
-                    DmF[CurrentlyStream].Topmost = true;
-                    DmF[CurrentlyStream].Topmost = false;
-
-                }
-                catch (Exception)
-                {
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// 动态窗口焦点事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void A_Activated(object sender, EventArgs e)
-        {
-            Form A = sender as Form;
-            CurrentlyStream = int.Parse(A.Name);
-            liveIndex.Text = (CurrentlyStream).ToString();
-            TopInfo.Checked = MMPU.RoomInfo[CurrentlyStream].Top;
-            if (MMPU.DanmakuEnabled)
-            {
-                try
-                {
-                    DmF[CurrentlyStream].Topmost = true;
-                    DmF[CurrentlyStream].Topmost = false;
-                }
-                catch (Exception)
-                {
-
-                }
-
-            }
-        }
-        private void 更新窗体内播放器大小(object sender)
-        {
-            Form F1 = sender as Form;
-            CurrentlyStream = int.Parse(F1.Name);
-            PBOX[CurrentlyStream].Size = new Size(FM[CurrentlyStream].Width - WindowTopLeft.X - 20, FM[CurrentlyStream].Height - WindowTopLeft.Y - 42);
-            FSize[int.Parse(F1.Name)] = F1.Size;
-        }
+       
 
         /// <summary>
         /// 关闭窗口
@@ -707,7 +466,7 @@ namespace DD监控室
         /// <param name="A">房间标号</param>
         private void ClForm(int A)
         {
-            FM[A].Close();
+            LiveFormList[A].Close();
             VLC[A].Stop();
             liveIndex.Items.Remove(A.ToString());
             new Thread(new ThreadStart(delegate
@@ -737,7 +496,7 @@ namespace DD监控室
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button4_Click(object sender, EventArgs e)
+        private void btn_TempListen_Click(object sender, EventArgs e)
         {
             NewLive(biliRoomId.Text);
         }
@@ -759,17 +518,18 @@ namespace DD监控室
                 {
                     VideoTitle = "房间名获取失败";
                 }
-                string steamData = getUriSteam.getBiliRoomId(roomId, "bilibili");
-                T1.Text = steamData;
-                if (steamData == "该房间未在直播")
+                string streamData = getUriSteam.getBiliRoomId(roomId, "bilibili");
+                T1.Text = streamData;
+                if (streamData == "该房间未在直播")
                 {
                     MessageBox.Show("该房间未在直播");
                     return;
                 }
-                NewLiveWindow(VideoTitle);
+                LiveForm live = NewLiveWindow(VideoTitle);
                 CurrentlyStream = int.Parse(liveIndex.Text);
-                VLC[CurrentlyStream].Play(steamData, PBOX[CurrentlyStream].Handle);
-                MMPU.RoomInfo.Add(new Room.RoomInfo { Name = CurrentlyStream.ToString(), RoomNumber = roomId, steam = steamData, status = true, Text = VideoTitle });
+                //VLC[CurrentlyStream].Play(steamData, PBOX[CurrentlyStream].Handle);
+                live.Play(streamData);
+                MMPU.RoomInfo.Add(new Room.RoomInfo { Name = CurrentlyStream.ToString(), RoomNumber = roomId, steam = streamData, status = true, Text = VideoTitle });
                 EditTitleVolume(CurrentlyStream, trackBar1.Value);
                 if (VLC[CurrentlyStream].GetPlayerState() == -10)
                 {
@@ -784,11 +544,11 @@ namespace DD监控室
                 if (MMPU.DanmakuEnabled)
                 {
                     Window1 W1 = new Window1(roomId, CurrentlyStream);
-                    W1.Width = FM[CurrentlyStream].Width - 20;
-                    W1.Height = FM[CurrentlyStream].Height - 50;
+                    W1.Width = LiveFormList[CurrentlyStream].Width - 20;
+                    W1.Height = LiveFormList[CurrentlyStream].Height - 50;
 
-                    W1.Top = FM[CurrentlyStream].Top + 30;
-                    W1.Left = FM[CurrentlyStream].Left + 10;
+                    W1.Top = LiveFormList[CurrentlyStream].Top + 30;
+                    W1.Left = LiveFormList[CurrentlyStream].Left + 10;
                     DmF.Add(W1);
                     W1.Show();
                 }
@@ -834,7 +594,7 @@ namespace DD监控室
         {
             List<string> cs = new List<string>();
             MMPU.DMlist.Add(cs);
-            FM[窗口编号].Close();
+            LiveFormList[窗口编号].Close();
             VLC[窗口编号].Dispose();
             Thread.Sleep(1000);
             NewLive(RoomId);
@@ -850,7 +610,7 @@ namespace DD监控室
 
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void btn_DeleteLive_Click(object sender, EventArgs e)
         {
 
         }
@@ -861,9 +621,6 @@ namespace DD监控室
         /// <param name="e"></param>
         private void listBox1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-
-
-
             int index = listBox.IndexFromPoint(e.Location);
             if (index != ListBox.NoMatches)
             {
@@ -935,7 +692,7 @@ namespace DD监控室
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button6_Click_1(object sender, EventArgs e)
+        private void btn_AddLive_Click_1(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(RoomNametext.Text))
             {
@@ -1011,9 +768,9 @@ namespace DD监控室
                    
                     if (!MMPU.IsRefreshed)
                     {
-                        button8.Text = "刷新中...";
+                        btn_RefreshLiveList.Text = "刷新中...";
 
-                        button8.Enabled = false;
+                        btn_RefreshLiveList.Enabled = false;
                         // listBox.Enabled = false;
                         MMPU.IsRefreshed = true;
                         //listBox.Items.Clear();
@@ -1108,8 +865,8 @@ namespace DD监控室
                         {
 
                         }
-                        button8.Text = "刷新";
-                        button8.Enabled = true;
+                        btn_RefreshLiveList.Text = "刷新";
+                        btn_RefreshLiveList.Enabled = true;
                         //  listBox.Enabled = true;
                         MMPU.IsRefreshed = false;
                         startType = false;
@@ -1199,7 +956,7 @@ namespace DD监控室
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button8_Click(object sender, EventArgs e)
+        private void btn_RefreshLiveList_Click(object sender, EventArgs e)
         {
             UpdateRoomList();
         }
@@ -1273,10 +1030,10 @@ namespace DD监控室
                     MessageBox.Show("输入的数据过大或过小");
                     return;
                 }
-                for (int i = 0; i < FM.Count; i++)
+                for (int i = 0; i < LiveFormList.Count; i++)
                 {
                     Size C = new Size(X, Y);
-                    FM[i].Size = C;
+                    LiveFormList[i].Size = C;
                     FSize[i] = C;
                     PBOX[i].Size = new Size(C.Width - WindowTopLeft.X - 20, C.Height - WindowTopLeft.Y - 42);
                 }
@@ -1303,7 +1060,7 @@ namespace DD监控室
             try
             {
                 MMPU.RoomInfo[CurrentlyStream].Top = TopInfo.Checked;
-                FM[CurrentlyStream].TopMost = TopInfo.Checked;
+                LiveFormList[CurrentlyStream].TopMost = TopInfo.Checked;
                 DmF[CurrentlyStream].Topmost = TopInfo.Checked;
             }
             catch (Exception)
@@ -1422,15 +1179,9 @@ namespace DD监控室
             MMPU.DanmakuEnabled = DMNF.Checked;
         }
 
-        private void button12_Click(object sender, EventArgs e)
+        private void btn_GoTo_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < MMPU.RoomConfigList.Count; i++)
-            {
-                if (listBox.Items[indexRoom].ToString().Length != listBox.Items[indexRoom].ToString().Replace(MMPU.RoomConfigList[i].RoomNumber, "").Length)
-                {
-                    System.Diagnostics.Process.Start("https://live.bilibili.com/" + MMPU.RoomConfigList[i].RoomNumber);
-                }
-            }
+
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -1703,5 +1454,9 @@ namespace DD监控室
         {
 
         }
+
+       
+
+     
     }
 }
